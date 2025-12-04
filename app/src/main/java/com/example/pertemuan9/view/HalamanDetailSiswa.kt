@@ -16,13 +16,14 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.pertemuan9.R
-import com.example.pertemuan9.model.Siswa
-import com.example.pertemuan9.navigation.DestinasiDetailSiswa
 import com.example.pertemuan9.viewmodel.DetailSiswaUiState
 import com.example.pertemuan9.viewmodel.DetailViewModel
 import com.example.pertemuan9.viewmodel.provider.PenyediaViewModel
 import kotlinx.coroutines.launch
 import androidx.compose.ui.text.font.FontWeight
+import com.example.pertemuan9.room.Siswa
+import com.example.pertemuan9.view.route.DestinasiDetailSiswa
+import com.example.pertemuan9.viewmodel.toSiswa
 
 @Composable
 fun DetailSiswaScreen(
@@ -61,7 +62,7 @@ fun DetailSiswaScreen(
             detailSiswaUiState = uiState.value,
             onDelete = {
                 coroutineScope.launch {
-                    viewModel.deleteSiswa()
+//                    viewModel.deleteSiswa()
                     navigateBack()
                 }
             },
