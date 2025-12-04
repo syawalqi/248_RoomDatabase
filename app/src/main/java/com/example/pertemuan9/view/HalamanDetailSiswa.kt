@@ -62,7 +62,7 @@ fun DetailSiswaScreen(
             detailSiswaUiState = uiState.value,
             onDelete = {
                 coroutineScope.launch {
-//                    viewModel.deleteSiswa()
+                    viewModel.deleteSiswa()
                     navigateBack()
                 }
             },
