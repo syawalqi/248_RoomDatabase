@@ -31,10 +31,17 @@ fun HostNavigasi(
         composable(route = DestinasiHome.route) {
             HomeScreen(
                 navigateToItemEntry = { navController.navigate(route = DestinasiEntry.route) },
+                navigateToItemUpdate = {navController.navigate("${DestinasiDetailSiswa.route}/$it")}
             )
         }
         composable(route = DestinasiEntry.route) {
             EntrySiswaScreen(navigateBack = { navController.popBackStack() })
+        }
+        composable(route = DestinasiDetailSiswa.routeWithArgs,
+            arguments = ListOf(navArgument(itemIdArg) {
+                    type = NavType.IntType
+                })
+            ){
         }
     }
 }
