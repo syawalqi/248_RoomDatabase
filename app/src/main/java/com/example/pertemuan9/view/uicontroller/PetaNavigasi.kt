@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.pertemuan9.view.DetailSiswaScreen
 import com.example.pertemuan9.view.route.DestinasiHome
 import com.example.pertemuan9.view.route.DestinasiEntry
 import com.example.pertemuan9.view.EntrySiswaScreen
@@ -41,11 +42,18 @@ fun HostNavigasi(
         composable(route = DestinasiEntry.route) {
             EntrySiswaScreen(navigateBack = { navController.popBackStack() })
         }
-        composable(route = DestinasiDetailSiswa.routeWithArgs,
-            arguments = listOf(navArgument(itemIdArg) {
-                    type = NavType.IntType
-                })
-            ){
+        composable(
+            route = DestinasiDetailSiswa.routeWithArgs,
+            arguments = listOf(
+                navArgument(itemIdArg) { type = NavType.IntType }
+            )
+        ) {
+            DetailSiswaScreen(
+                navigateToEditItem = { id ->
+                    navController.navigate("${DestinasiEntry.route}/$id")
+                },
+                navigateBack = { navController.popBackStack() }
+            )
         }
     }
 }
