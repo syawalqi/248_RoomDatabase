@@ -31,7 +31,7 @@ import com.example.pertemuan9.viewmodel.DetailSiswaUiState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.font.FontWeight
 import com.example.pertemuan9.viewmodel.toSiswa
-import com.example.pertemuan9.view.route.DestinasiDetail
+import com.example.pertemuan9.view.route.DestinasiDetailSiswa
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,7 +44,7 @@ fun DetailSiswaScreen(
     Scaffold(
         topBar = {
             SiswaTopAppBar(
-                title = stringResource(DestinasiDetail.titleRes),
+                title = stringResource(DestinasiDetailSiswa.titleRes),
                 canNavigateBack = true,
                 navigateUp = navigateBack
             )

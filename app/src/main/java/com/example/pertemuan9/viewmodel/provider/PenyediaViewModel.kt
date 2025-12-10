@@ -11,9 +11,6 @@ import com.example.pertemuan9.viewmodel.HomeViewModel
 import com.example.pertemuan9.viewmodel.DetailViewModel
 import com.example.pertemuan9.viewmodel.EditViewModel
 
-/**
- * Menyediakan ViewModelProvider.Factory untuk ViewModel (Home, Entry, Detail, Edit)
- */
 object PenyediaViewModel {
 
     val Factory = viewModelFactory {
@@ -21,14 +18,14 @@ object PenyediaViewModel {
         // HomeViewModel
         initializer {
             HomeViewModel(
-                aplikasiSiswa().container.repoSiswa
+                aplikasiSiswa().containerApp.repositoriSiswa
             )
         }
 
         // EntryViewModel
         initializer {
             EntryViewModel(
-                aplikasiSiswa().container.repoSiswa
+                aplikasiSiswa().containerApp.repositoriSiswa
             )
         }
 
@@ -36,7 +33,7 @@ object PenyediaViewModel {
         initializer {
             DetailViewModel(
                 this.createSavedStateHandle(),
-                aplikasiSiswa().container.repoSiswa
+                aplikasiSiswa().containerApp.repositoriSiswa
             )
         }
 
@@ -44,7 +41,7 @@ object PenyediaViewModel {
         initializer {
             EditViewModel(
                 this.createSavedStateHandle(),
-                aplikasiSiswa().container.repoSiswa
+                aplikasiSiswa().containerApp.repositoriSiswa
             )
         }
     }

@@ -17,8 +17,8 @@ import com.example.pertemuan9.view.HomeScreen
 
 import com.example.pertemuan9.view.route.DestinasiHome
 import com.example.pertemuan9.view.route.DestinasiEntry
-import com.example.pertemuan9.view.route.DestinasiDetail
-import com.example.pertemuan9.view.route.DestinasiDetail.itemIDArg
+import com.example.pertemuan9.view.route.DestinasiDetailSiswa
+import com.example.pertemuan9.view.route.DestinasiDetailSiswa.itemIdArg
 import com.example.pertemuan9.view.route.DestinasiEditSiswa
 
 @Composable
@@ -48,7 +48,7 @@ fun HostNavigasi(
                     navController.navigate(DestinasiEntry.route)
                 },
                 navigateToItemUpdate = { id ->
-                    navController.navigate("${DestinasiDetail.route}/$id")
+                    navController.navigate("${DestinasiDetailSiswa.route}/$id")
                 }
             )
         }
@@ -62,9 +62,9 @@ fun HostNavigasi(
 
         /** DETAIL SCREEN */
         composable(
-            route = DestinasiDetail.routeWithArgs,
+            route = DestinasiDetailSiswa.routeWithArgs,
             arguments = listOf(
-                navArgument(itemIDArg) {
+                navArgument(itemIdArg) {
                     type = NavType.IntType
                 }
             )
