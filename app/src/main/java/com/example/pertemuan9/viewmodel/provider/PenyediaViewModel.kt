@@ -1,42 +1,48 @@
 package com.example.pertemuan9.viewmodel.provider
 
+import android.app.Application
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+
 import com.example.pertemuan9.repositori.AplikasiSiswa
+import com.example.pertemuan9.viewmodel.EditViewModel
 import com.example.pertemuan9.viewmodel.DetailViewModel
 import com.example.pertemuan9.viewmodel.EntryViewModel
 import com.example.pertemuan9.viewmodel.HomeViewModel
 
-/**
- * Menyediakan objek [ViewModelProvider.Factory] untuk pembuatan instance [HomeViewModel] dan [EntryViewModel]
- */
 object PenyediaViewModel {
+
     val Factory = viewModelFactory {
-        // Initializer untuk HomeViewModel
+
         initializer {
-            HomeViewModel(
-                aplikasiSiswa().containerApp.repositoriSiswa
-            )
+            HomeViewModel(aplikasiSiswa().container.repositoriSiswa)
         }
-        // Initializer untuk EntryViewModel
+
         initializer {
-            EntryViewModel(
-                aplikasiSiswa().containerApp.repositoriSiswa
-            )
+            EntryViewModel(aplikasiSiswa().container.repositoriSiswa)
         }
+
         initializer {
-            DetailViewModel(this.createSavedStateHandle(), aplikasiSiswa().containerApp.repositoriSiswa
+            DetailViewModel(
+                this.createSavedStateHandle(),
+                aplikasiSiswa().container.repositoriSiswa
             )
         }
 
+        initializer {
+            EditViewModel(
+                this.createSavedStateHandle(),
+                aplikasiSiswa().container.repositoriSiswa
+            )
+        }
     }
 }
 
 /**
- * Fungsi ekstensi untuk mendapatkan instance [AplikasiSiswa] dari [CreationExtras]
+ * Fungsi ekstensi untuk mengambil instance Application
  */
 fun CreationExtras.aplikasiSiswa(): AplikasiSiswa =
     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as AplikasiSiswa)
