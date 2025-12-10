@@ -4,22 +4,22 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.navigation.NavType
 
-import com.example.pertemuan9.view.HomeScreen
-import com.example.pertemuan9.view.EntrySiswaScreen
 import com.example.pertemuan9.view.DetailSiswaScreen
 import com.example.pertemuan9.view.EditSiswaScreen
+import com.example.pertemuan9.view.EntrySiswaScreen
+import com.example.pertemuan9.view.HomeScreen
 
-import com.example.pertemuan9.view.route.DestinasiDetailSiswa
-import com.example.pertemuan9.view.route.DestinasiDetailSiswa.itemIdArg
-import com.example.pertemuan9.view.route.DestinasiEditSiswa
-import com.example.pertemuan9.view.route.DestinasiEntry
 import com.example.pertemuan9.view.route.DestinasiHome
+import com.example.pertemuan9.view.route.DestinasiEntry
+import com.example.pertemuan9.view.route.DestinasiDetail
+import com.example.pertemuan9.view.route.DestinasiDetail.itemIDArg
+import com.example.pertemuan9.view.route.DestinasiEditSiswa
 
 @Composable
 fun SiswaApp(
@@ -41,29 +41,33 @@ fun HostNavigasi(
         modifier = modifier
     ) {
 
-        // HOME
-        composable(DestinasiHome.route) {
+        /** HOME SCREEN */
+        composable(route = DestinasiHome.route) {
             HomeScreen(
-                navigateToItemEntry = { navController.navigate(DestinasiEntry.route) },
+                navigateToItemEntry = {
+                    navController.navigate(DestinasiEntry.route)
+                },
                 navigateToItemUpdate = { id ->
-                    navController.navigate("${DestinasiDetailSiswa.route}/$id")
+                    navController.navigate("${DestinasiDetail.route}/$id")
                 }
             )
         }
 
-        // ENTRY
-        composable(DestinasiEntry.route) {
+        /** ENTRY SCREEN */
+        composable(route = DestinasiEntry.route) {
             EntrySiswaScreen(
                 navigateBack = { navController.popBackStack() }
             )
         }
 
-        // DETAIL
+        /** DETAIL SCREEN */
         composable(
-            route = DestinasiDetailSiswa.routeWithArgs,
-            arguments = listOf(navArgument(itemIdArg) {
-                type = NavType.IntType
-            })
+            route = DestinasiDetail.routeWithArgs,
+            arguments = listOf(
+                navArgument(itemIDArg) {
+                    type = NavType.IntType
+                }
+            )
         ) {
             DetailSiswaScreen(
                 navigateToEditItem = { id ->
@@ -73,15 +77,18 @@ fun HostNavigasi(
             )
         }
 
-        // EDIT
+        /** EDIT SCREEN */
         composable(
             route = DestinasiEditSiswa.routeWithArgs,
-            arguments = listOf(navArgument(DestinasiEditSiswa.itemIdArg) {
-                type = NavType.IntType
-            })
+            arguments = listOf(
+                navArgument(DestinasiEditSiswa.itemIdArg) {
+                    type = NavType.IntType
+                }
+            )
         ) {
             EditSiswaScreen(
-                navigateBack = { navController.navigateUp() }
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() }
             )
         }
     }

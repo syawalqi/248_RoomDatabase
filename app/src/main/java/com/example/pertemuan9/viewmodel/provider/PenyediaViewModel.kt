@@ -1,48 +1,57 @@
 package com.example.pertemuan9.viewmodel.provider
 
-import android.app.Application
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-
 import com.example.pertemuan9.repositori.AplikasiSiswa
-import com.example.pertemuan9.viewmodel.EditViewModel
-import com.example.pertemuan9.viewmodel.DetailViewModel
 import com.example.pertemuan9.viewmodel.EntryViewModel
 import com.example.pertemuan9.viewmodel.HomeViewModel
+import com.example.pertemuan9.viewmodel.DetailViewModel
+import com.example.pertemuan9.viewmodel.EditViewModel
 
+/**
+ * Menyediakan ViewModelProvider.Factory untuk ViewModel (Home, Entry, Detail, Edit)
+ */
 object PenyediaViewModel {
 
     val Factory = viewModelFactory {
 
+        // HomeViewModel
         initializer {
-            HomeViewModel(aplikasiSiswa().container.repositoriSiswa)
-        }
-
-        initializer {
-            EntryViewModel(aplikasiSiswa().container.repositoriSiswa)
-        }
-
-        initializer {
-            DetailViewModel(
-                this.createSavedStateHandle(),
-                aplikasiSiswa().container.repositoriSiswa
+            HomeViewModel(
+                aplikasiSiswa().container.repoSiswa
             )
         }
 
+        // EntryViewModel
+        initializer {
+            EntryViewModel(
+                aplikasiSiswa().container.repoSiswa
+            )
+        }
+
+        // DetailViewModel
+        initializer {
+            DetailViewModel(
+                this.createSavedStateHandle(),
+                aplikasiSiswa().container.repoSiswa
+            )
+        }
+
+        // EditViewModel
         initializer {
             EditViewModel(
                 this.createSavedStateHandle(),
-                aplikasiSiswa().container.repositoriSiswa
+                aplikasiSiswa().container.repoSiswa
             )
         }
     }
 }
 
 /**
- * Fungsi ekstensi untuk mengambil instance Application
+ * Mengambil instance AplikasiSiswa dari CreationExtras
  */
 fun CreationExtras.aplikasiSiswa(): AplikasiSiswa =
     (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as AplikasiSiswa)

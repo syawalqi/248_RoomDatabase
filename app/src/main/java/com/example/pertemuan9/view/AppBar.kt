@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.example.pertemuan9.R
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SiswaTopAppBar(
@@ -31,5 +30,6 @@ fun SiswaTopAppBar(
                     )
                 }
             }
-        })
+        }
+    )
 }

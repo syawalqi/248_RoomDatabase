@@ -12,52 +12,57 @@ class EntryViewModel(private val repositoriSiswa: RepositoriSiswa) : ViewModel()
     /**
      * Berisi status Siswa saat ini
      */
-    var uiStateSiswa by mutableStateOf(value = UiStateSiswa())
+    var uiStateSiswa by mutableStateOf(UiStateSiswa())
         private set
 
     /**
-     * Fungsi untuk memvalidasi input
+     * Validasi input data
      */
     private fun validasiInput(uiState: DetailSiswa = uiStateSiswa.detailSiswa): Boolean {
-        return with(receiver = uiState) {
+        return with(uiState) {
             nama.isNotBlank() && alamat.isNotBlank() && telpon.isNotBlank()
         }
     }
 
     fun updateUiState(detailSiswa: DetailSiswa) {
-        uiStateSiswa =
-            UiStateSiswa(
-                detailSiswa = detailSiswa,
-                isEntryValid = validasiInput(uiState = detailSiswa)
-            )
+        uiStateSiswa = UiStateSiswa(
+            detailSiswa = detailSiswa,
+            isEntryValid = validasiInput(detailSiswa)
+        )
     }
 
     /**
-     * Fungsi untuk menyimpan data yang di-entry
+     * Menyimpan data siswa
      */
     suspend fun saveSiswa() {
         if (validasiInput()) {
-            repositoriSiswa.insertSiswa(siswa = uiStateSiswa.detailSiswa.toSiswa())
+            repositoriSiswa.insertSiswa(uiStateSiswa.detailSiswa.toSiswa())
         }
     }
 }
 
 /**
- * Mewakili Status UI untuk Siswa.
+ * UI State untuk form siswa
  */
 data class UiStateSiswa(
     val detailSiswa: DetailSiswa = DetailSiswa(),
     val isEntryValid: Boolean = false
 )
 
+/**
+ * Data untuk kebutuhan UI (form)
+ */
 data class DetailSiswa(
     val id: Int = 0,
     val nama: String = "",
     val alamat: String = "",
+    val email: String = "",
     val telpon: String = ""
 )
 
-/* Fungsi untuk mengkonversi data input ke data dalam tabel sesuai jenis datanya */
+/**
+ * Konversi dari UI → Entity
+ */
 fun DetailSiswa.toSiswa(): Siswa = Siswa(
     id = id,
     nama = nama,
@@ -65,7 +70,9 @@ fun DetailSiswa.toSiswa(): Siswa = Siswa(
     telpon = telpon
 )
 
-// Fungsi konversi dari entitas Siswa ke DetailSiswa (UI-friendly)
+/**
+ * Konversi dari Entity → UI
+ */
 fun Siswa.toDetailSiswa(): DetailSiswa = DetailSiswa(
     id = id,
     nama = nama,
@@ -73,8 +80,11 @@ fun Siswa.toDetailSiswa(): DetailSiswa = DetailSiswa(
     telpon = telpon
 )
 
-// Fungsi untuk mengkonversi dari entitas Siswa ke UiStateSiswa
-fun Siswa.toUiStateSiswa(isEntryValid: Boolean = false): UiStateSiswa = UiStateSiswa(
-    detailSiswa = this.toDetailSiswa(),
-    isEntryValid = isEntryValid
-)
+/**
+ * Konversi Entity → UiStateSiswa
+ */
+fun Siswa.toUiStateSiswa(isEntryValid: Boolean = false): UiStateSiswa =
+    UiStateSiswa(
+        detailSiswa = this.toDetailSiswa(),
+        isEntryValid = isEntryValid
+    )

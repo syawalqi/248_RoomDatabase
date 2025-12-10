@@ -1,30 +1,39 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.example.pertemuan9.view
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.pertemuan9.R
-import com.example.pertemuan9.viewmodel.DetailSiswaUiState
 import com.example.pertemuan9.viewmodel.DetailViewModel
 import com.example.pertemuan9.viewmodel.provider.PenyediaViewModel
+import com.example.pertemuan9.R
 import kotlinx.coroutines.launch
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.runtime.getValue
 import com.example.pertemuan9.room.Siswa
-import com.example.pertemuan9.view.route.DestinasiDetailSiswa
+import com.example.pertemuan9.viewmodel.DetailSiswaUiState
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.font.FontWeight
 import com.example.pertemuan9.viewmodel.toSiswa
+import com.example.pertemuan9.view.route.DestinasiDetail
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailSiswaScreen(
     navigateToEditItem: (Int) -> Unit,
@@ -35,7 +44,7 @@ fun DetailSiswaScreen(
     Scaffold(
         topBar = {
             SiswaTopAppBar(
-                title = stringResource(DestinasiDetailSiswa.titleRes),
+                title = stringResource(DestinasiDetail.titleRes),
                 canNavigateBack = true,
                 navigateUp = navigateBack
             )
@@ -49,7 +58,7 @@ fun DetailSiswaScreen(
             ) {
                 Icon(
                     imageVector = Icons.Default.Edit,
-                    contentDescription = stringResource(R.string.update),
+                    contentDescription = stringResource(R.string.update)
                 )
             }
         },
@@ -104,7 +113,9 @@ private fun BodyDetailDataSiswa(
                     deleteConfirmationRequired = false
                     onDelete()
                 },
-                onDeleteCancel = { deleteConfirmationRequired = false },
+                onDeleteCancel = {
+                    deleteConfirmationRequired = false
+                },
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
             )
         }
@@ -131,15 +142,18 @@ fun DetailDataSiswa(
         ) {
             BarisDetailData(
                 labelResID = R.string.nama1,
-                itemDetail = siswa.nama
+                itemDetail = siswa.nama,
+                modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_medium))
             )
             BarisDetailData(
                 labelResID = R.string.alamat1,
-                itemDetail = siswa.alamat
+                itemDetail = siswa.alamat,
+                modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_medium))
             )
             BarisDetailData(
                 labelResID = R.string.telpon1,
-                itemDetail = siswa.telpon
+                itemDetail = siswa.telpon,
+                modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_medium))
             )
         }
     }
@@ -151,8 +165,8 @@ private fun BarisDetailData(
     itemDetail: String,
     modifier: Modifier = Modifier
 ) {
-    Row(modifier = modifier.fillMaxWidth()) {
-        Text(text = stringResource(labelResID))
+    Row(modifier = modifier) {
+        Text(stringResource(labelResID))
         Spacer(modifier = Modifier.weight(1f))
         Text(text = itemDetail, fontWeight = FontWeight.Bold)
     }
@@ -165,7 +179,7 @@ private fun DeleteConfirmationDialog(
     modifier: Modifier = Modifier
 ) {
     AlertDialog(
-        onDismissRequest = { /* prevent dismiss */ },
+        onDismissRequest = { },
         title = { Text(stringResource(R.string.attention)) },
         text = { Text(stringResource(R.string.tanya)) },
         modifier = modifier,

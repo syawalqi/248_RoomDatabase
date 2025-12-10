@@ -8,7 +8,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -23,8 +23,7 @@ import com.example.pertemuan9.viewmodel.provider.PenyediaViewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.room.Update
-
+import androidx.compose.ui.Alignment
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -49,7 +48,7 @@ fun HomeScreen(
             FloatingActionButton(
                 onClick = navigateToItemEntry,
                 shape = MaterialTheme.shapes.medium,
-                modifier = Modifier.padding(all = dimensionResource(R.dimen.padding_large))
+                modifier = Modifier.padding(dimensionResource(R.dimen.padding_large))
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -59,11 +58,12 @@ fun HomeScreen(
         }
     ) { innerPadding ->
         val uiStateSiswa by viewModel.homeUiState.collectAsState()
+
         BodyHome(
             itemSiswa = uiStateSiswa.listSiswa,
             onSiswaClick = navigateToItemUpdate,
             modifier = Modifier
-                .padding(paddingValues = innerPadding)
+                .padding(innerPadding)
                 .fillMaxSize()
         )
     }
@@ -81,7 +81,7 @@ fun BodyHome(
     ) {
         if (itemSiswa.isEmpty()) {
             Text(
-                text = stringResource(id = R.string.deskripsi_no_item),
+                text = stringResource(R.string.deskripsi_no_item),
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.titleLarge
             )
@@ -106,7 +106,7 @@ fun ListSiswa(
             DataSiswa(
                 siswa = person,
                 modifier = Modifier
-                    .padding(all = dimensionResource(R.dimen.padding_small))
+                    .padding(dimensionResource(R.dimen.padding_small))
                     .clickable { onSiswaClick(person) }
             )
         }
@@ -123,26 +123,29 @@ fun DataSiswa(
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
-            modifier = Modifier.padding(all = dimensionResource(R.dimen.padding_large)),
-            verticalArrangement = Arrangement.spacedBy(space = dimensionResource(R.dimen.padding_small))
+            modifier = Modifier.padding(dimensionResource(R.dimen.padding_large)),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
+            Row(modifier = Modifier.fillMaxWidth()) {
+
                 Text(
                     text = siswa.nama,
                     style = MaterialTheme.typography.titleLarge,
                 )
-                Spacer(Modifier.weight(weight = 1f))
+
+                Spacer(Modifier.weight(1f))
+
                 Icon(
                     imageVector = Icons.Default.Phone,
                     contentDescription = null,
                 )
+
                 Text(
                     text = siswa.telpon,
                     style = MaterialTheme.typography.titleMedium
                 )
             }
+
             Text(
                 text = siswa.alamat,
                 style = MaterialTheme.typography.titleMedium
